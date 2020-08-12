@@ -1,0 +1,14 @@
+#!/bin/env bash
+set -x
+
+# export NODE_ENV=development
+
+export JWT_SECRET=awv4BcIzsRysXkhoSAb8t8lNENgXSqBruVlLwd45kGdYjeJHLap9LUJ1t9DTdw36DvLcWs3qEkPyCY6vOyNljlh2Er952h2gDzYwG82rs1qfTzdVIg89KTaQ4SWI1YGY
+
+export AWS_ACCESS_KEY_ID=AKIAXV2OR6BHPKAHQK3D
+# export AWS_SECRET_ACCESS_KEY=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 Hide 
+export AWS_SECRET_ACCESS_KEY=FEcqSrx8YRezSQEs+sCUkTW9Pbng5bAY+M763Vss
+
+export PORT=8000
+npm run server
+

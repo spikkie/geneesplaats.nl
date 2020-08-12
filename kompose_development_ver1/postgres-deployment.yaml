@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -v -f docker-compose-development.config.yml -o kompose_development
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: postgres
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -v -f docker-compose-development.config.yml -o
+          kompose_development
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: postgres
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_URL
+          value: postgres://development_geneesplaats_nl_user:s1WSbjbgelta@postgres:5432/development_geneesplaats_nl
+        - name: PGDATA 
+          value: /var/lib/postgresql/data/pgdata
+        - name: DEBUG
+          value: "1"
+        - name: DOCKERID
+          value: spikkie
+        - name: ENVIRONMENT
+          value: development
+        - name: NODE_ENV
+          value: development
+        - name: POSTGRES_DB
+          value: development_geneesplaats_nl
+        - name: POSTGRES_GENEESPLAATS_NL_IMAGE
+          value: postgres:12.1-alpine
+        - name: POSTGRES_GENEESPLAATS_NL_VERSION
+          value: latest
+        - name: POSTGRES_PASSWORD
+          value: s1WSbjbgelta
+        - name: POSTGRES_REPOSITORY
+          value: postgres_geneesplaats_nl_development
+        - name: POSTGRES_USER
+          value: development_geneesplaats_nl_user
+        - name: REACT_APP_BASE_URL
+        - name: REACT_APP_EXPOSE_PORT
+          value: "8001"
+        - name: REACT_APP_TEST
+          value: TEST
+        - name: REACT_GENEESPLAATS_NL_IMAGE
+          value: spikkie/react_geneesplaats_nl_development
+        - name: REACT_GENEESPLAATS_NL_VERSION
+          value: latest
+        - name: REACT_REPOSITORY
+          value: react_geneesplaats_nl_development
+        - name: SECRET_KEY
+          value: nngC9ZO6LCOHqjXo3sqhP4gWHiTLHyCZXaK3iwRq2U7s7gq9pV
+        image: postgres:12.1-alpine
+        imagePullPolicy: ""
+        name: postgres-geneesplaats-nl-development-dev
+        ports:
+        - containerPort: 5432
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data-dev
+        - mountPath: /backups
+          name: postgres-backup-dev
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: postgres-data-dev
+        persistentVolumeClaim:
+          claimName: postgres-data-dev
+      - name: postgres-backup-dev
+        persistentVolumeClaim:
+          claimName: postgres-backup-dev
+      imagePullSecrets:
+        - name: regcred-nginx-ingress
+status: {}

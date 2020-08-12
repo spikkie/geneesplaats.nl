@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: nginx-ingress
+  name: nginx-ingress 
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-ingress 
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+        io.kompose.network/nginx-network: "true"
+        io.kompose.network/postgres-network: "true"
+        io.kompose.service: nginx-ingress 
+    spec:
+      serviceAccountName: nginx-ingress
+      containers:
+      - name: nginx-ingress
+        image: nginx/nginx-ingress:1.6.2
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+
+        securityContext:
+          allowPrivilegeEscalation: true
+          runAsUser: 101 #nginx
+          capabilities:
+            drop:
+            - ALL
+            add:
+            - NET_BIND_SERVICE
+        env:
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name	
+        resources: {}
+        args:
+          - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
+          - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
+         #- -v=3 # Enables extensive logging. Useful for troubleshooting.
+         #- -report-ingress-status
+         #- -external-service=nginx-ingress
+         #- -enable-leader-election
+         #- -enable-prometheus-metrics
+       
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: regcred-nginx-ingress
+

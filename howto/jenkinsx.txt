@@ -1,0 +1,27 @@
+#jx commands
+jx create cluster gke \
+    --cluster-name=geneesplaat-nl-jx \
+    --project-id=geneesplaats-nl-jx \
+    --zone=europe-west4-a \
+    --machine-type=e2-standard-2 \
+    --max-num-nodes=3 \
+    --min-num-nodes=2 \
+    --skip-login \
+    --skip-installation \
+    --no-tiller=true
+
+
+
+
+jx boot 
+The “jx boot" command  itself replaces the following commands:	
+jx install
+jx init	
+jx create terraform	
+jx upgrade cluster	
+jx upgrade ingress
+
+
+-------
+Import a project into JenkinsX
+jx import --url https github url

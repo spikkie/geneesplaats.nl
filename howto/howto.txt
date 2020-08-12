@@ -1,0 +1,125 @@
+yaml files created by command
+./control_geneesplaats_nl.sh kompose_convert production
+then updated some file
+added to git
+
+
+started by command
+~/projects/geneesplaats-nl/kompose_production
+kubectl  apply -f $(ls .| tr '\n' ','  | sed 's/.$//') 
+
+
+types of yaml file
+~/projects/geneesplaats-nl/kompose_production$ ll| grep -v persistentvolumeclaim.yaml| grep -v deployment.yaml | grep -v env-configmap.yaml| grep -v network-networkpolicy.yaml | grep -v service.yaml
+
+env-configmap.yaml
+persistentvolumeclaim.yaml
+deployment.yaml
+network-networkpolicy.yaml
+service.yaml
+
+
+
+--
+docker hub credentials
+
+see
+https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+
+kubectl create secret generic regcred \
+    --from-file=.dockerconfigjson=<path/to/.docker/config.json> \
+    --type=kubernetes.io/dockerconfigjson
+
+spikkie@master-node:~/projects/geneesplaats-nl/kompose_production$ kubectl create secret generic regcred  --from-file=.dockerconfigjson=/home/spikkie/.docker/config.json --type=kubernetes.io/dockerconfigjson
+secret/regcred created
+
+
+also
+https://managedkube.com/kubernetes/k8sbot/troubleshooting/imagepullbackoff/2019/02/23/imagepullbackoff.html
+
+
+--
+React
+
+installation
+https://www.techomoro.com/how-to-install-and-setup-a-react-app-on-ubuntu-18-04-1/
+
+connect frontend to backend
+https://kubernetes.io/docs/tasks/access-application-cluster/connecting-frontend-backend/
+
+The key to connecting a frontend to a backend is the backend Service. A Service creates a persistent IP address and DNS name entry so that the backend microservice can always be reached. A Service uses selectors to find the Pods that it routes traffic to.
+
+
+!!!!
+How to set state of response from axios in react
+https://stackoverflow.com/questions/41194866/how-to-set-state-of-response-from-axios-in-react
+
+!!!
+Handling State in React: Four Immutable Approaches to Consider
+https://www.freecodecamp.org/news/handling-state-in-react-four-immutable-approaches-to-consider-d1f5c00249d5/
+
+
+---
+Django + React 
+Creating an app with React and Django
+https://blog.logrocket.com/creating-an-app-with-react-and-django/
+
+#How To Build a Modern Web Application to Manage Customer Information with Django and React on Ubuntu 18.04
+https://www.digitalocean.com/community/tutorials/how-to-build-a-modern-web-application-to-manage-customer-information-with-django-and-react-on-ubuntu-18-04
+
+
+email as login name /authentication
+https://medium.com/@ramykhuffash/django-authentication-with-just-an-email-and-password-no-username-required-33e47976b517
+From this point on instead of referencing the user model with User, 
+you should use either “settings.AUTH_USER_MODEL” or “get_user_model()”. You can learn when to use either here.
+see
+https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
+
+---
+
+
+Django Rest Framework with React : JWT Authentication part 1
+https://medium.com/swlh/django-rest-framework-with-react-jwt-authentication-part-1-a24b24fa83cd
+part 2 also
+sources:
+https://github.com/keshavvinayak01/django-api-oauth
+
+
+Full stack Django: Quick start with JWT auth and React/Redux (Part I)
+https://medium.com/netscape/full-stack-django-quick-start-with-jwt-auth-and-react-redux-part-i-37853685ab57
+
+
+Simple Docker Authentication
+https://simpleisbetterthancomplex.com/tutorial/2018/12/19/how-to-use-jwt-authentication-with-django-rest-framework.html
+
+http post http://127.0.0.1:8001/api/v1/token/ username=spikkie password=22222222
+http  http://127.0.0.1:8001/api/v1/debugcode/hello/ "Authorization: Bearer ...."
+#after 5 minutes use refresh to get new token which will last for 24 hours
+http post http://127.0.0.1:8001/api/v1/token/refresh/ refresh=eyJ0eXAiOiJ
+
+
+
+---
+
+Django REST
+generate schema 
+In Docker container
+root@7b8d833cfdc5:/app# python manage.py generateschema --format openapi-json
+
+
+---
+Django User model
+Exdending User Model
+https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
+
+now using this installation 
+https://pypi.org/project/django-username-email/
+https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
+https://github.com/jmfederico/django-use-email-as-username/#readme
+
+
+#How to make email field unique in model User from contrib.auth in Django
+https://stackoverflow.com/questions/1160030/how-to-make-email-field-unique-in-model-user-from-contrib-auth-in-django
+https://testdriven.io/blog/django-custom-user-model/  !!!!
+
+

@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1alpha3
+kind: Certificate
+metadata:
+  name: geneesplaats-nl-letsencrypt-crt
+spec:
+  secretName: geneesplaats-nl-letsencrypt-secret
+  issuerRef:
+    kind: Issuer
+    name: geneesplaats-nl-letsencrypt-prod
+  commonName: geneesplaats.nl
+  dnsNames:
+  - geneesplaats.nl

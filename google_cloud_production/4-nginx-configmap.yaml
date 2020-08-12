@@ -1,0 +1,31 @@
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nginx-config
+  name: nginx-config
+  namespace: nginx-ingress
+data:
+  DATABASE_URL: postgres://production_geneesplaats_nl_user:n7fseDI0vw42@postgres:5432/production_geneesplaats_nl
+  DEBUG: "0"
+  DJANGO_ALLOWED_HOSTS: .geneesplaats.nl
+  DJANGO_EXPOSE_PORT: "8001"
+  DJANGO_GENEESPLAATS_NL_VERSION: latest
+  DJANGO_SETTINGS_MODULE: config.settings.production
+  ENVIRONMENT: production
+  POSTGRES_DB: production_geneesplaats_nl
+  POSTGRES_GENEESPLAATS_NL_VERSION: latest
+  POSTGRES_PASSWORD: n7fseDI0vw42
+  POSTGRES_USER: production_geneesplaats_nl_user
+  PRODUCTION: "true"
+  SECRET_KEY: ZT7i5QmzQTUUldzm1nU8XTrBz1lwCkyssMCt96q1ipmexs6I0E
+  proxy-protocol: "True"
+  real-ip-header: "proxy_protocol"
+  set-real-ip-from: "0.0.0.0/0"   
+  proxy-connect-timeout: "10s"
+  proxy-read-timeout: "10s"
+  client-max-body-size: "2m"
+  error-log-level: "debug"
+

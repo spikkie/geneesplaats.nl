@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: postgres
+  name: postgres
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+        io.kompose.network/nginx-network: "true"
+        io.kompose.network/postgres-network: "true"
+        io.kompose.service: postgres
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: DATABASE_URL
+              name: postgres-env
+        - name: DEBUG
+          valueFrom:
+            configMapKeyRef:
+              key: DEBUG
+              name: postgres-env
+        - name: DJANGO_ALLOWED_HOSTS
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_ALLOWED_HOSTS
+              name: postgres-env
+        - name: DJANGO_EXPOSE_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_EXPOSE_PORT
+              name: postgres-env
+        - name: DJANGO_GENEESPLAATS_NL_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_GENEESPLAATS_NL_VERSION
+              name: postgres-env
+        - name: DJANGO_SETTINGS_MODULE
+          valueFrom:
+            configMapKeyRef:
+              key: DJANGO_SETTINGS_MODULE
+              name: postgres-env
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              key: ENVIRONMENT
+              name: postgres-env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: postgres-env
+        - name: POSTGRES_GENEESPLAATS_NL_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_GENEESPLAATS_NL_VERSION
+              name: postgres-env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: postgres-env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: postgres-env
+        - name: PRODUCTION
+          valueFrom:
+            configMapKeyRef:
+              key: PRODUCTION
+              name: postgres-env
+        - name: SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: SECRET_KEY
+              name: postgres-env
+        image: 'postgres'
+        name: postgres-geneesplaats-nl
+        ports:
+          - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/mydata
+          name: postgres-data
+        - mountPath: /backups
+          name: postgres-backup
+      restartPolicy: Always
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-data-claim
+      - name: postgres-backup
+        persistentVolumeClaim:
+          claimName: postgres-backup-claim
+      imagePullSecrets:
+        - name: regcred-nginx-ingress
+

@@ -1,0 +1,32 @@
+
+
+#Debug Ingress controller Service authentication
+#from https://kubernetes.github.io/ingress-nginx/troubleshooting/
+# start a container that contains curl
+
+kubectl run test --image=tutum/curl -- sleep 10000
+
+# check that container is running
+kubectl get pods
+
+# check if secret exists
+kubectl exec test-701078429-s5kca -- ls /var/run/secrets/kubernetes.io/serviceaccount/
+
+# get service IP of master
+kubectl get services
+
+# check base connectivity from cluster inside
+kubectl exec test-701078429-s5kca -- curl -k https://10.0.0.1
+-> Unauthorized
+
+# connect using tokens
+TOKEN_VALUE=$(kubectl exec test-701078429-s5kca -- cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+echo $TOKEN_VALUE
+-> eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3Mi....9A
+kubectl exec test-701078429-s5kca -- curl --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -H  "Authorization: Bearer $TOKEN_VALUE" https://10.0.0.1
+
+
+#kubectl config
+kubectl config current-context
+
+

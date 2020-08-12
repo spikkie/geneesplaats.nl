@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: django-ingress
+  namespace: nginx-ingress
+spec:
+  tls:
+  - hosts:
+    - www.geneesplaats.nl
+    secretName: default-server-secret
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: django
+          servicePort: 8001

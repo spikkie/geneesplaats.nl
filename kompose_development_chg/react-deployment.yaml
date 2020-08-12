@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -v -f docker-compose-development.config.yml -o kompose_development
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: react
+  name: react
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: react
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -v -f docker-compose-development.config.yml -o
+          kompose_development
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: react
+    spec:
+      containers:
+      - env:
+        - name: AWS_ACCESS_KEY_ID
+          value: AKIAXV2OR6BHPKAHQK3D
+        - name: AWS_SECRET_ACCESS_KEY
+          value: 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
+        - name: DATABASE_URL
+          value: postgres://development_geneesplaats_nl_user:s1WSbjbgelta@postgres:5432/development_geneesplaats_nl
+        - name: DEBUG
+          value: "1"
+        - name: DOCKERID
+          value: spikkie
+        - name: ENVIRONMENT
+          value: development
+        - name: JWT_SECRET
+          value: awv4BcIzsRysXkhoSAb8t8lNENgXSqBruVlLwd45kGdYjeJHLap9LUJ1t9DTdw36DvLcWs3qEkPyCY6vOyNljlh2Er952h2gDzYwG82rs1qfTzdVIg89KTaQ4SWI1YGY
+        - name: NODE_ENV
+          value: development
+        - name: PORT
+          value: "8000"
+        - name: POSTGRES_DB
+          value: development_geneesplaats_nl
+        - name: POSTGRES_GENEESPLAATS_NL_IMAGE
+          value: postgres:12.1-alpine
+        - name: POSTGRES_GENEESPLAATS_NL_VERSION
+          value: latest
+        - name: POSTGRES_PASSWORD
+          value: s1WSbjbgelta
+        - name: POSTGRES_REPOSITORY
+          value: postgres_geneesplaats_nl_development
+        - name: POSTGRES_USER
+          value: development_geneesplaats_nl_user
+        - name: REACT_APP_BASE_URL
+        - name: REACT_APP_EXPOSE_PORT
+          value: "8001"
+        - name: REACT_APP_TEST
+          value: TEST
+        - name: REACT_GENEESPLAATS_NL_IMAGE
+          value: spikkie/react_geneesplaats_nl_development
+        - name: REACT_GENEESPLAATS_NL_VERSION
+          value: latest
+        - name: REACT_REPOSITORY
+          value: react_geneesplaats_nl_development
+        - name: SECRET_KEY
+          value: nngC9ZO6LCOHqjXo3sqhP4gWHiTLHyCZXaK3iwRq2U7s7gq9pV
+        image: spikkie/react_geneesplaats_nl_development:latest
+        imagePullPolicy: ""
+        name: react-geneesplaats-nl-development
+        ports:
+        - containerPort: 8001
+        - containerPort: 8001
+        resources: {}
+        volumeMounts:
+        - mountPath: /usr/src/app/src
+          name: react-claim0
+        - mountPath: /usr/src/app/node_modules
+          name: react-claim1
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: react-claim0
+        persistentVolumeClaim:
+          claimName: react-claim0
+      - name: react-claim1
+        persistentVolumeClaim:
+          claimName: react-claim1
+      imagePullSecrets:
+        - name: regcred-nginx-ingress
+status: {}

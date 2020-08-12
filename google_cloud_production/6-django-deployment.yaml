@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: django
+  name: django
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: django
+        io.kompose.network/nginx-network: "true"
+        io.kompose.network/postgres-network: "true"
+        io.kompose.service: django
+    spec:
+      containers:
+      - name: django-geneesplaats-nl
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_URL
+                name: django-config
+          - name: DEBUG
+            valueFrom:
+              configMapKeyRef:
+                key: DEBUG
+                name: django-config
+          - name: DJANGO_ALLOWED_HOSTS
+            valueFrom:
+              configMapKeyRef:
+                key: DJANGO_ALLOWED_HOSTS
+                name: django-config
+          - name: DJANGO_EXPOSE_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: DJANGO_EXPOSE_PORT
+                name: django-config
+          - name: DJANGO_GENEESPLAATS_NL_VERSION
+            valueFrom:
+              configMapKeyRef:
+                key: DJANGO_GENEESPLAATS_NL_VERSION
+                name: django-config
+          - name: DJANGO_SETTINGS_MODULE
+            valueFrom:
+              configMapKeyRef:
+                key: DJANGO_SETTINGS_MODULE
+                name: django-config
+          - name: ENVIRONMENT
+            valueFrom:
+              configMapKeyRef:
+                key: ENVIRONMENT
+                name: django-config
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_DB
+                name: django-config
+          - name: POSTGRES_GENEESPLAATS_NL_VERSION
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_GENEESPLAATS_NL_VERSION
+                name: django-config
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_PASSWORD
+                name: django-config
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_USER
+                name: django-config
+          - name: PRODUCTION
+            valueFrom:
+              configMapKeyRef:
+                key: PRODUCTION
+                name: django-config
+          - name: SECRET_KEY
+            valueFrom:
+              configMapKeyRef:
+                key: SECRET_KEY
+                name: django-config
+        image: 'spikkie/django_geneesplaats_nl'
+        #livenessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: 80
+        #readinessProbe:
+          # an http probe
+          #httpGet:
+          #  path: /readiness
+         #  port: 80
+            #initialDelaySeconds: 10
+            #timeoutSeconds: 5
+        ports:
+          - name: http
+            containerPort: 8001
+        volumeMounts:
+        - mountPath: /app/static_cdn/static_root/
+          name: static-volume
+        - mountPath: /app/static_cdn/media_root/
+          name: media-volume
+        - mountPath: /app/static_my_proj/
+          name: static-my-proj-volume
+
+      restartPolicy: Always
+      volumes:
+      - name: static-volume
+        persistentVolumeClaim:
+          claimName: static-volume-claim
+      - name: media-volume
+        persistentVolumeClaim:
+          claimName: media-volume-claim
+      - name: static-my-proj-volume
+        persistentVolumeClaim:
+          claimName: static-my-proj-volume-claim
+
+      imagePullSecrets:
+        - name: regcred-nginx-ingress
+

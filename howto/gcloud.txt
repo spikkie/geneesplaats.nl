@@ -1,0 +1,95 @@
+#configure gcloud
+gcloud init     #follow questions
+
+
+gcloud --help
+
+#list projects
+gcloud config list --format='text(core.project)'
+
+gcloud projects list
+
+gcloud config list
+
+gcloud auth list
+
+
+#----
+#get command to mount drive
+gcloud alpha cloud-shell get-mount-command  /home/spikkie/my_gcloud
+#return
+#    sshfs spikkie@35.233.61.44: /home/spikkie/my_gcloud -p 6000 -oIdentityFile=/home/spikkieroot/.ssh/google_compute_engine -oStrictHostKeyChecking=no
+
+ll /home/spikkie/my_gcloud
+
+#----
+#set up command line ssh communication
+#connect to default project
+gcloud alpha cloud-shell ssh --ssh-flag=-X
+
+#---
+create a new cluster
+google_cloud_production/init.sh
+
+gcloud config configurations list
+echo gcloud config configurations activate cloudshell-32705
+gcloud container clusters create geneesplaats-nl-cluster-1 --zone europe-west4-a --num-nodes=2
+
+#---
+start project run 
+google_cloud_production/apply.sh
+
+export IC_IP=34.90.93.255
+export IC_HTTPS_PORT=80
+export IC_HTTP_PORT=80
+
+kubectl create namespace nginx-ingress
+kubectl create secret docker-registry regcred-nginx-ingress --docker-server=https://index.docker.io/v1/   --docker-username=spikkie --docker-password=Bessabessa16\!\! --docker-email=spikkie@gmail.com --namespace=nginx-ingress
+kubectl apply -f $(ls  -p *.yaml  | grep -v / | tr '\n' ','  | sed 's/.$//')
+
+#---
+remove the project run
+google_cloud_production/delete.sh
+
+unset IC_IP
+unset IC_HTTPS_PORT
+unset IC_HTTP_PORT
+
+kubectl delete -f $(ls  -p *.yaml  | grep -v / | tr '\n' ','  | sed 's/.$//')
+
+
+#---
+After having created a cluster we have to create a kubeconfig entry for the
+project 
+
+We do this with command :
+
+gcloud container clusters get-credentials geneesplaat-nl-jx --zone europe-west4-a --project geneesplaats-nl-jx
+
+
+Fetching cluster endpoint and auth data.
+kubeconfig entry generated for geneesplaat-nl-jx.
+
+
+we can also find this command when we go to google cloud dashboard
+https://console.cloud.google.com/home/dashboard?folder=&organizationId=&project=geneesplaats-nl-jx
+
+go to Kubernetes engine 
+Connect to the cluster 
+
+
+
+#---
+#---
+#---
+#---
+#---
+#---
+#---
+
+
+
+
+
+
+

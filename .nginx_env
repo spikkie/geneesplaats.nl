@@ -1,0 +1,6 @@
+DEBUG=1
+ENVIRONMENT=development
+DOCKERID=spikkie
+NGINX_REPOSITORY=nginx_geneesplaats_nl_development
+NGINX_GENEESPLAATS_NL_IMAGE=spikkie/nginx_geneesplaats_nl_development
+NGINX_GENEESPLAATS_NL_VERSION=V0.1.17

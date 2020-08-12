@@ -1,0 +1,6 @@
+
+#Get Posts
+curl -X POST  -H "Content-Type: application/json"  -i http://localhost:8000/graphql --data '{  "operationName": null,  "query": "{     posts {       id      text   user{ username  }  }  }",   "variables": {} }'
+
+#addPost
+curl -X POST  -H "Content-Type: application/json"  -i http://localhost:8000/graphql --data '{  "operationName": null,  "query": "mutation addPost($post : PostInput!, $user: UserInput!) {    addPost(post : $post, user: $user) {       id      text      user {        username        avatar      }    }  }",  "variables": {    "post": {       "text": "You just added a post."    },    "user": {      "avatar": "/uploads/avatar3.png",      "username": "Fake User"    }  }}'

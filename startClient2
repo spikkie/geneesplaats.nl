@@ -1,0 +1,4 @@
+#!/bin/env bash
+set -x
+export SERVERPORT=8001
+npm run client2 

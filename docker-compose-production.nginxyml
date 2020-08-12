@@ -1,0 +1,84 @@
+version: "3.8"
+
+services:
+  postgres:
+    restart: always
+    container_name: ${POSTGRES_REPOSITORY}_prod
+    image: ${POSTGRES_GENEESPLAATS_NL_IMAGE}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+      - postgres_backup_prod:/backups
+    networks:
+      - postgres-network
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+
+  react:
+    container_name: ${REACT_REPOSITORY}
+    image: ${REACT_GENEESPLAATS_NL_IMAGE}:${REACT_GENEESPLAATS_NL_VERSION}
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/prod/Dockerfile
+    depends_on:
+      - postgres
+
+    expose:
+      - "${REACT_APP_EXPOSE_PORT}"
+    ports:
+      - "${REACT_APP_EXPOSE_PORT}:${REACT_APP_EXPOSE_PORT}"
+    networks:
+      - postgres-network
+      - react-network
+    env_file:
+      - ./.env
+      - ./.docker-dev-env
+      - ./.react_env
+
+ webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - react
+    networks:
+      - react-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email info@geneesplaats.nl --agree-tos --no-eff-email --staging -d geneesplaats.nl  -d www.geneesplaats.nl
+      
+volumes:
+  postgres_data_prod: {}
+  postgres_backup_prod: {}
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/sammy/node_project/views/
+      o: bind
+
+
+networks:
+  postgres-network:
+    driver: bridge
+  react-network:
+    driver: bridge

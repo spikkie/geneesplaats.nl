@@ -1,0 +1,4 @@
+#!/bin/env bash
+set -x
+# SERVERURL="http://localhost:8000/graphql" npm run client1
+npm run client

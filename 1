@@ -1,0 +1,22 @@
+../Code/Chapter10/src/client/router.js:        rest.loggedIn === true
+../Code/Chapter10/src/client/router.js:        rest.loggedIn === false
+../Code/Chapter10/src/client/router.js:                    <PrivateRoute path="/app" component={() => <Main changeLoginState={this.props.changeLoginState}/>} loggedIn={this.props.loggedIn}/>
+../Code/Chapter10/src/client/router.js:                    <PrivateRoute path="/user/:username" component={props => <User {...props} changeLoginState={this.props.changeLoginState}/>} loggedIn={this.props.loggedIn}/>
+../Code/Chapter10/src/client/router.js:                    <LoginRoute exact path="/" component={() => <LoginRegisterForm changeLoginState={this.props.changeLoginState}/>} loggedIn={this.props.loggedIn}/>
+../Code/Chapter10/src/client/App.js:        loggedIn: (typeof window.__APOLLO_STATE__ !== typeof undefined && typeof window.__APOLLO_STATE__.ROOT_QUERY !== typeof undefined && typeof window.__APOLLO_STATE__.ROOT_QUERY.currentUser !== typeof undefined)
+../Code/Chapter10/src/client/App.js:    changeLoginState = (loggedIn) => {
+../Code/Chapter10/src/client/App.js:        this.setState({ loggedIn });
+../Code/Chapter10/src/client/App.js:                <Router loggedIn={this.state.loggedIn} changeLoginState={this.changeLoginState}/>
+../Code/Chapter10/src/server/index.js:    var loggedIn;
+../Code/Chapter10/src/server/index.js:        loggedIn = true;
+../Code/Chapter10/src/server/index.js:        loggedIn = false;
+../Code/Chapter10/src/server/index.js:    const client = ApolloClient(req, loggedIn);
+../Code/Chapter10/src/server/index.js:    const App = (<Graphbook client={client} loggedIn={loggedIn} location={req.url} context={context}/>);
+../Code/Chapter10/src/server/ssr/index.js:    const { client, location, context, loggedIn } = this.props;
+../Code/Chapter10/src/server/ssr/index.js:        <App location={location} context={context} loggedIn={loggedIn}/>
+../Code/Chapter10/src/server/ssr/app.js:        loggedIn: this.props.loggedIn
+../Code/Chapter10/src/server/ssr/app.js:    changeLoginState = (loggedIn) => {
+../Code/Chapter10/src/server/ssr/app.js:        this.setState({ loggedIn });
+../Code/Chapter10/src/server/ssr/app.js:                <Router loggedIn={this.state.loggedIn} changeLoginState={this.changeLoginState} location={this.props.location} context={this.props.context}/>
+../Code/Chapter10/src/server/ssr/apollo.js:export default (req, loggedIn) => {
+../Code/Chapter10/src/server/ssr/apollo.js:        if(loggedIn) {

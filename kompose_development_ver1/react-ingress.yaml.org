@@ -1,0 +1,18 @@
+#apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
+
+kind: Ingress
+metadata:
+  name: react-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "geneesplaats-nl-static-ip"
+
+  # namespace: nginx-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: react
+          servicePort: 8001

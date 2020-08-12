@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -v -f docker-compose-production.config.yml -o kompose_production
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: postgres
+  name: postgres
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -v -f docker-compose-production.config.yml -o
+          kompose_production
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: postgres
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_URL
+          value: postgres://production_geneesplaats_nl_user:1qiovWPEcmbJ@postgres:5432/production_geneesplaats_nl
+        - name: PGDATA 
+          value: /var/lib/postgresql/data/pgdata
+        - name: DEBUG
+          value: "1"
+        - name: DOCKERID
+          value: spikkie
+        - name: ENVIRONMENT
+          value: production
+        - name: NODE_ENV
+          value: production
+        - name: POSTGRES_DB
+          value: production_geneesplaats_nl
+        - name: POSTGRES_GENEESPLAATS_NL_IMAGE
+          value: postgres:12.1-alpine
+        - name: POSTGRES_GENEESPLAATS_NL_VERSION
+          value: latest
+        - name: POSTGRES_PASSWORD
+          value: 1qiovWPEcmbJ
+        - name: POSTGRES_REPOSITORY
+          value: postgres_geneesplaats_nl_production
+        - name: POSTGRES_USER
+          value: production_geneesplaats_nl_user
+        - name: REACT_APP_BASE_URL
+        - name: REACT_APP_EXPOSE_PORT
+          value: "8000"
+        - name: REACT_APP_TEST
+          value: TEST
+        - name: REACT_GENEESPLAATS_NL_IMAGE
+          value: spikkie/react_geneesplaats_nl_production
+        - name: REACT_GENEESPLAATS_NL_VERSION
+          value: latest
+        - name: REACT_REPOSITORY
+          value: react_geneesplaats_nl_production
+        - name: SECRET_KEY
+          value: dsFxxMjPZJBEJRiWdTCG8FgT2JVTaA2ww4Oj2D3uWo7V29BDND
+        image: postgres:12.1-alpine
+        imagePullPolicy: ""
+        name: postgres-geneesplaats-nl-production-prod
+        ports:
+        - containerPort: 5432
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data-prod
+        - mountPath: /backups
+          name: postgres-backup-prod
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: postgres-data-prod
+        persistentVolumeClaim:
+          claimName: postgres-data-prod
+      - name: postgres-backup-prod
+        persistentVolumeClaim:
+          claimName: postgres-backup-prod
+      imagePullSecrets:
+        - name: regcred-nginx-ingress
+status: {}

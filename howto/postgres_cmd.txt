@@ -1,0 +1,27 @@
+docker exec -it 42fa9c3fb56c  psql -Udevelopment_geneesplaats_nl_user -a development_geneesplaats_nl
+docker exec -it 42fa9c3fb56c  psql -Udevelopment_geneesplaats_nl_user -c '\l'
+docker exec -it 42fa9c3fb56c  psql -Udevelopment_geneesplaats_nl_user -a development_geneesplaats_nl -c '\l'
+docker exec -it 42fa9c3fb56c  psql -d development_geneesplaats_nl -U development_geneesplaats_nl_user -W
+
+
+ok
+docker exec -it 379  psql -a development_geneesplaats_nl -U development_geneesplaats_nl_user -c '\l';
+docker exec -it 98   psql -a development_geneesplaats_nl -U development_geneesplaats_nl_user -c 'select * from "Users";'
+docker exec -it 98   psql -a development_geneesplaats_nl -U development_geneesplaats_nl_user -c 'select * from "Posts";'
+
+#The following command connects to a database under a specific user. 
+#After pressing Enter PostgreSQL will ask for the password of the user.
+# you will get a command prompt
+docker exec -it 98  psql -d development_geneesplaats_nl  -U  development_geneesplaats_nl_user  -W
+
+#then 
+#list all tables
+\d   
+
+#-----------
+# Kubernetes  production google cloud
+#------------
+
+k exec -it   postgres-8647c8f64b-8xs8x -c postgres-geneesplaats-nl-production-prod -- psql -a production_geneesplaats_nl -U production_geneesplaats_nl_user -c '\l';
+
+k exec -it   postgres-8647c8f64b-8xs8x -c postgres-geneesplaats-nl-production-prod -- psql -a production_geneesplaats_nl -U production_geneesplaats_nl_user -c 'delete from "Posts" where id=7';

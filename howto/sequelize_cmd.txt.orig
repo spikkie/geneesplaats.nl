@@ -1,0 +1,41 @@
+
+sequelize model:generate --name Post --attributes text:text
+sequelize model:generate  --name User --attributes avatar:string,username:string
+sequelize model:generate --name Chat --attributes firstName:string,lastName:string,email:string
+sequelize model:generate --name Message --attributes text:string,userId:integer,chatId:integer
+
+
+sequelize migration:create  --name add-userId-to-post
+sequelize migration:create  --name create-user-chats
+sequelize migration:create --name add-email-password-to-post
+
+
+
+sequelize db:migrate --debug
+
+sequelize seed:generate --name fake-posts
+sequelize seed:generate --name fake-users
+sequelize seed:generate --name fake-chats
+sequelize seed:generate --name fake-chats-users-relations
+sequelize seed:generate --name fake-messages
+
+
+#db seed
+#from src/server/   there we have .sequelizerc
+sequelize db:seed:all
+
+
+#db migrate
+sequelize db:migrate
+sequelize db:migrate:undo
+sequelize db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js
+sequelize db:migrate:undo:all
+
+
+<<<<<<< HEAD
+docker exec -it a2fa4da92be7 sequelize db:migrate
+
+
+=======
+k exec -it  react-5d8854677d-tcrf5 -c  react-geneesplaats-nl-production  -- sequelize db:migrate
+>>>>>>> 1259229c553e19689a94f6aa826c02253c33cfc5

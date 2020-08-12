@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: selfsigned-crt
+spec:
+  secretName: tls-secret
+  issuerRef:
+    kind: Issuer
+    name: selfsigned
+  commonName: "geneesplaats.nl"
+  dnsNames:
+  - "geneesplaats.nl"

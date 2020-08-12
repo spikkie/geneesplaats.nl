@@ -1,0 +1,14 @@
+
+https://dnns.no/dynamic-dns-with-bind-and-nsupdate.html
+
+Dynamic DNS with bind and nsupdate
+
+dnssec-keygen.
+https://manpages.debian.org/jessie/bind9utils/dnssec-keygen.8.en.html
+sudo apt install bind9 bind9utils bind9-doc
+
+cd ~/projects/geneesplaats.nl/dns
+dnssec-keygen -a HMAC-SHA512 -b 512 -n USER geneesplaats.nl
+
+
+

@@ -1,0 +1,5 @@
+./init_install.sh
+wait and rerun ./init_install.sh
+install-nginx-ingress-controller.from.digitalocean.sh
+./i/apply.sh
+ka react-ingress.yaml

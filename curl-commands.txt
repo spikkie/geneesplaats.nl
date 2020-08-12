@@ -1,0 +1,25 @@
+
+#Djoser based commands
+#create user
+#profile should also becreated by default 
+curl -X POST http://127.0.0.1:8001/api/v1/auth/users/ --data 'email=djoser@g.com&password=alpine12'
+
+#Create GK User 
+curl -X POST  -H "Content-Type: application/json"  http://127.0.0.1:8001/api/v1/auth/users/ -d '{"email": "spik@a.com", "password": "dwurfgwr742389742", "is_gk": "True"}'
+#Create TZ User 
+curl -X POST  -H "Content-Type: application/json"  http://127.0.0.1:8001/api/v1/auth/users/ -d '{"email": "spik@a.com", "password": "dwurfgwr742389742", "is_gk": "True"}'
+
+#create JWT
+curl -X POST  -H "Content-Type: application/json" http://127.0.0.1:8001/api/v1/accounts/jwt/create/ -d '{"email": "spikkie@gmail.com", "password": "22222222"}'
+
+#refresh
+curl -X POST -H "Content-Type: application/json" -d '{"refresh": "TOKEN"}' http://127.0.0.1:8001/api/v1/accounts/jwt/refresh/
+
+#verify
+curl -X POST  -H "Content-Type: application/json" -H "Authorization: JWT TOKEN" http://127.0.0.1:8001/api/v1/accounts/jwt/verify/ 
+
+#get User details  users/me
+curl -X GET -H "Content-Type: application/json" -H "Authorization: JWT TOKEN" http://127.0.0.1:8001/api/v1/accounts/users/me/
+
+
+

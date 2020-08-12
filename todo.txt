@@ -1,0 +1,40 @@
+#
+There are some ways to automate this process, through additional npm packages. There is a package that automates the process of creating a GraphQL schema from your database models for you. As always, you are more flexible when you do not rely on preconfigured packages. You can find the package at 
+https://www.npmjs.com/package/graphql-tools-sequelize.  
+---
+There are some great comparisons between the solutions on Medium: https://medium.com/@dai_shi/the-nice-query-component-in-react-apollo-2-1-688e50e03893
+
+---
+learn 
+https://reactpatterns.com/.
+
+---
+If you need a deeper understanding of which approach is a better solution for your specific case, take a look at https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/.
+
+---
+React offers way more prop types and functions that you can use to document all of the components and their properties. To learn a bit more about this, visit the official documentation at https://reactjs.org/docs/typechecking-with-proptypes.html.
+
+---
+
+React Context API, in comparison with the Apollo Consumer feature
+Check what is the diff with Redux
+
+---
+JSON Web Tokens are an important topic in developer communities. There is some excellent documentation available related to what JWTs are, how they can be used, and their technological background. Visit the following web page to learn more and to see a demonstration of the generation of a JWT: https://jwt.io/.
+
+---
+
+
+
+JX
+---
+If you’re using a cloud system that supports Vault, such as EKS or GKS, you can configure Vault via:secretStorage: vault
+from
+https://learning.oreilly.com/library/view/jenkins-x/9781098115432/ch02.html
+As a best practice, you don’t want to store secrets in local storage.  As of this writing, arguably the best way to store secrets is using Vault from Hashicorp. 
+
+Vault is an application to securely manage secrets.  More specifically, per http://www.vaultproject.io/docs/what-is-vault/  : “Vault is a tool for securely accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, or certificates. Vault provides a unified interface to any secret, while providing tight access control and recording a detailed audit log.”If you’re using a cloud system that supports Vault, such as EKS or GKS, you can configure Vault via:secretStorage: vault
+
+---
+
+

@@ -1,0 +1,55 @@
+#apiVersion: networking.k8s.io/v1beta1
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: react-ingress
+  namespace: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    #ingressclass.kubernetes.io/is-default-class: "true"
+    #kubernetes.io/ingress.global-static-ip-name: "geneesplaats-nl-static-ip"
+    #kubernetes.io/ingress.global-static-ip-name: geneesplaats-nl-europe-west4-static-ip
+    kubernetes.io/ingress.global-static-ip-name: test-geneesplaats-nl-global-static-ip
+    cert-manager.io/issuer: "geneesplaats-nl-letsencrypt-production"
+    #cert-manager.io/cluster-issuer: geneesplaats-nl-letsencrypt-staging
+    # controls whether the ingress is modified ‘in-place’,
+    # or a new one is created specifically for the HTTP01 challenge.
+    #acme.cert-manager.io/http01-edit-in-place: "true"
+    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    ##nginx.ingress.kubernetes.io/from-to-www-redirect:  "true"
+    #nginx.ingress.kubernetes.io/use-regex: "true"
+    #nginx.ingress.kubernetes.io/configuration-snippet: |
+    #  if ($host ~* ^www\.(.*)) {       
+    #    set $host_without_www $1;
+    #    rewrite ^(.*) https://777$host_without_www$1 permanent;
+    #  }
+    #nginx.org/server-snippets: |
+    #  location / {
+    #    return 302 /app;
+    #  }
+
+spec:
+  tls:
+    - hosts:
+      - test.geneesplaats.nl
+      # This assumes tls-secret exists and the SSL
+      # certificate contains a CN for foo.bar.com
+      secretName: geneesplaats-nl-letsencrypt-secret-production
+      #secretName: geneesplaats-nl-letsencrypt-secret-staging
+      secretName: test-geneesplaats-nl-tls
+
+  rules:
+  - host: test.geneesplaats.nl
+    http:
+      paths:
+      - path: /.*
+        backend:
+          serviceName: react
+          servicePort: 8000
+      - path: /
+        backend:
+          serviceName: react
+          servicePort: 8000
+
+
+#from https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/basic-configuration/

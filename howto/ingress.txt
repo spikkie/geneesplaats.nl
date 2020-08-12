@@ -1,0 +1,46 @@
+
+
+configuration-snippets
+
+variables
+http://nginx.org/en/docs/http/ngx_http_core_module.html#variables
+
+Request-Id: $req_id
+
+
+"$request_id"
+
+host
+
+
+
+example
+  annotations:
+    ingress.kubernetes.io/configuration-snippet: |
+      if ($host = 'blog.yourdomain.com') {
+        return 301 https://yournewblogurl.com;
+      }
+      if ($host ~ ^(.+)\.yourdomain\.com$) {
+        return 301 https://$1.anotherdomain.com$request_uri;
+      }
+
+  annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+        set $agentflag 0;
+
+        if ($http_user_agent ~* "(Mobile)" ){
+          set $agentflag 1;
+        }
+
+        if ( $agentflag = 1 ) {
+          return 301 https://m.example.com;
+        }
+
+#----
+The ingress controller supports case insensitive regular expressions in the spec.rules.http.paths.path field. 
+This can be enabled by setting the 
+
+nginx.ingress.kubernetes.io/use-regex: "true" 
+
+annotation to true (the default is false).
+
