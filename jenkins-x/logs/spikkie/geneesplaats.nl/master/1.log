@@ -1,0 +1,30 @@
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mcredential-initializer[0m
+{"level":"info","ts":1597259064.911401,"caller":"creds-init/main.go:44","msg":"Credentials initialized."}
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mworking-dir-initializer[0m
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mplace-tools[0m
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-spikkie-geneesplaats-nl-master-fhcsc-988m9[0m
+{"level":"info","ts":1597259102.6071591,"caller":"git/git.go:105","msg":"Successfully cloned https://github.com/*******/geneesplaats.nl.git @ v0.0.1 in path /workspace/source"}
+{"level":"warn","ts":1597259102.607261,"caller":"git/git.go:152","msg":"Unexpected error: creating symlink: symlink /tekton/home/.ssh /root/.ssh: file exists"}
+{"level":"info","ts":1597259102.736029,"caller":"git/git.go:133","msg":"Successfully initialized and updated submodules in path /workspace/source"}
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-builder-home[0m
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:
+WARNING: no SHAs to merge, falling back to initial cloned commit
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-jx-git-credentials[0m
+Generated Git credentials file /workspace/xdg_config/git/credentials
+
+Showing logs for build [32mspikkie-geneesplaats-nl-master-fhcsc-1[0m stage [32mfrom-build-pack[0m and container [32mstep-build-make-build[0m
+CGO_ENABLED=0 GO15VENDOREXPERIMENT=1 go build -ldflags '' -o bin/geneesplaats-nl main.go
+can't load package: package main.go: cannot find package "main.go" in any of:
+	/usr/local/go/src/main.go (from $GOROOT)
+	/home/jenkins/go/src/main.go (from $GOPATH)
+make: *** [build] Error 1
+[31m
+Pipeline failed on stage 'from-build-pack' : container 'step-build-make-build'. The execution of the pipeline has stopped.[0m
